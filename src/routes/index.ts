@@ -1,14 +1,16 @@
 import express, { type NextFunction, type Response, type Request, type ErrorRequestHandler } from "express";
+import { mongoConnect } from "../domain/repositories/mongo-repository";
+import { userRouter } from "./user.routes";
 
 export const configureRoutes = (app: any): any => {
   // Routes
   const router = express.Router();
 
   // Middleware for connecting to Mongo
-  // app.use(async (req: Request, res: Response, next: NextFunction) => {
-  // await mongoConnect();
-  // next();
-  // });
+  app.use(async (req: Request, res: Response, next: NextFunction) => {
+    await mongoConnect();
+    next();
+  });
 
   router.get("/", (req: Request, res: Response) => {
     res.send(`
@@ -22,6 +24,7 @@ export const configureRoutes = (app: any): any => {
 
   // Usamos las rutas
   app.use("/public", express.static("public"));
+  app.use("/user", userRouter);
   app.use("/", router);
 
   // Middleware de gestión de errores
