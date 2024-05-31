@@ -2,6 +2,7 @@ import express, { type NextFunction, type Response, type Request, type ErrorRequ
 import { mongoConnect } from "../domain/repositories/mongo-repository";
 import { userRouter } from "./user.routes";
 import { teamRouter } from "./team.routes";
+import { matchRouter } from "./match.routes";
 
 export const configureRoutes = (app: any): any => {
   // Routes
@@ -27,6 +28,7 @@ export const configureRoutes = (app: any): any => {
   app.use("/public", express.static("public"));
   app.use("/user", userRouter);
   app.use("/team", teamRouter);
+  app.use("/match", matchRouter);
   app.use("/", router);
 
   // Middleware de gestión de errores

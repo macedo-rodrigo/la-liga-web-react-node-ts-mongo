@@ -16,7 +16,7 @@ export interface IUserCreate {
   firstName: string;
   lastName: string;
   role?: ROL;
-  team?: ITeam;
+  team?: string | ITeam;
 }
 
 export type IUser = IUserCreate & Document;
@@ -60,7 +60,7 @@ const userSchema = new Schema<IUserCreate>(
     team: {
       type: Schema.Types.ObjectId,
       ref: "Team",
-      required: true,
+      required: false,
     },
   },
   {
