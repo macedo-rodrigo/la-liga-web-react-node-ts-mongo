@@ -20,9 +20,9 @@ const getUserByEmailWithPassword = async (email: string): Promise<Document<IUser
   return user;
 };
 
-// const getPlayersByTeamId = async (classroomId: string): Promise<IUser[]> => {
-//  return await User.find({ team: teamId });
-// };
+const getPlayersByTeamId = async (teamId: string): Promise<IUser[]> => {
+  return await User.find({ team: teamId });
+};
 
 const createUser = async (userData: IUserCreate): Promise<Document<IUser>> => {
   const user = new User(userData);
@@ -46,7 +46,7 @@ export const userOdm = {
   getUserCount,
   getUserById,
   getUserByEmailWithPassword,
-  // getPlayersByTeamId,
+  getPlayersByTeamId,
   createUser,
   deleteUser,
   updateUser,
