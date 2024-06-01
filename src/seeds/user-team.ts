@@ -78,16 +78,16 @@ const usersData: Array<Omit<IUserCreate, "team"> & { team: string; }> = [
 
 // Mock data for teams
 const teamsData: ITeamCreate[] = [
-  { name: "River Plate", alias: "Los Millonarios", players: [], score: 0 },
-  { name: "Boca Juniors", alias: "Los Xeneizes", players: [], score: 0 },
-  { name: "Manchester United", alias: "Red Devils", players: [], score: 0 },
-  { name: "Liverpool", alias: "The Reds", players: [], score: 0 },
-  { name: "Real Madrid", alias: "Los Blancos", players: [], score: 0 },
-  { name: "Barcelona", alias: "Barça", players: [], score: 0 },
-  { name: "Bayern Munich", alias: "Die Roten", players: [], score: 0 },
-  { name: "Juventus", alias: "La Vecchia Signora", players: [], score: 0 },
-  { name: "Chelsea", alias: "The Blues", players: [], score: 0 },
-  { name: "Paris Saint-Germain", alias: "Les Parisiens", players: [], score: 0 },
+  { name: "River Plate", alias: "Los Millonarios", players: [], },
+  { name: "Boca Juniors", alias: "Los Xeneizes", players: [] },
+  { name: "Manchester United", alias: "Red Devils", players: [] },
+  { name: "Liverpool", alias: "The Reds", players: [] },
+  { name: "Real Madrid", alias: "Los Blancos", players: [] },
+  { name: "Barcelona", alias: "Barça", players: [] },
+  { name: "Bayern Munich", alias: "Die Roten", players: [] },
+  { name: "Juventus", alias: "La Vecchia Signora", players: [] },
+  { name: "Chelsea", alias: "The Blues", players: [] },
+  { name: "Paris Saint-Germain", alias: "Les Parisiens", players: [] },
 ];
 
 const seedDatabase = async (): Promise<void> => {
