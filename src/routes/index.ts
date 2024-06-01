@@ -3,6 +3,7 @@ import { mongoConnect } from "../domain/repositories/mongo-repository";
 import { userRouter } from "./user.routes";
 import { teamRouter } from "./team.routes";
 import { matchRouter } from "./match.routes";
+import { journeyRouter } from "./journey.routes";
 
 export const configureRoutes = (app: any): any => {
   // Routes
@@ -29,6 +30,7 @@ export const configureRoutes = (app: any): any => {
   app.use("/user", userRouter);
   app.use("/team", teamRouter);
   app.use("/match", matchRouter);
+  app.use("/journey", journeyRouter);
   app.use("/", router);
 
   // Middleware de gestión de errores

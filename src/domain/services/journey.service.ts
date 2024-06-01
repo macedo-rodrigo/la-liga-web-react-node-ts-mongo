@@ -1,19 +1,19 @@
 /* eslint-disable @typescript-eslint/no-unsafe-argument */
 /* eslint-disable @typescript-eslint/triple-slash-reference */
-// <reference path="../../../custom-definitions.d.ts" />
+/// <reference path="../../../custom-definitions.d.ts" />
 
 //* eslint-disable @typescript-eslint/no-unsafe-argument */
 import { Request, Response, NextFunction } from "express";
-import { matchOdm } from "../odm/match.odm";
+import { journeyOdm } from "../odm/journey.odm";
 
-export const getMatches = async (req: Request, res: Response, next: NextFunction): Promise<void> => {
+export const getJourneys = async (req: Request, res: Response, next: NextFunction): Promise<void> => {
   try {
     const page = req.query.page ? parseInt(req.query.page as string) : 1;
     const limit = req.query.limit ? parseInt(req.query.limit as string) : 10;
 
-    const teams = await matchOdm.getAllMatches(page, limit);
+    const teams = await journeyOdm.getAllJourneys(page, limit);
 
-    const totalElements = await matchOdm.getMatchCount();
+    const totalElements = await journeyOdm.getJourneyCount();
 
     const response = {
       totalItems: totalElements,
@@ -28,20 +28,20 @@ export const getMatches = async (req: Request, res: Response, next: NextFunction
   }
 };
 
-export const getMatchById = async (req: Request, res: Response, next: NextFunction): Promise<void> => {
+export const getJourneyById = async (req: Request, res: Response, next: NextFunction): Promise<void> => {
   try {
     const userIdToShow = req.params.id;
 
     // Only for admins and teachers
     if (req.user.role !== "ADMIN" && req.user.role !== "CAPTAIN" && req.user.id !== userIdToShow) {
-      res.status(401).json({ error: "No tienes autorización para hacer esto" });
+      res.status(401).json({ error: "You are not authorized to do this" });
       return;
     }
 
-    const match = await matchOdm.getMatchById(userIdToShow);
+    const journey = await journeyOdm.getJourneyById(userIdToShow);
 
-    if (match) {
-      res.json(match);
+    if (journey) {
+      res.json(journey);
     } else {
       res.status(404).json({});
     }
@@ -50,20 +50,20 @@ export const getMatchById = async (req: Request, res: Response, next: NextFuncti
   }
 };
 
-export const createMatch = async (req: Request, res: Response, next: NextFunction): Promise<void> => {
+export const createJourney = async (req: Request, res: Response, next: NextFunction): Promise<void> => {
   try {
     if (req.user.role !== "ADMIN") {
-      res.status(201).json({ error: "Hey! Sorry, but you're not allowed to setup a match" });
+      res.status(401).json({ error: "Hey! Sorry, but you're not allowed to setup a match" });
     }
 
-    const createdMatch = await matchOdm.createMatch(req.body);
-    res.status(201).json(createdMatch);
+    const createdJourney = await journeyOdm.createJourney(req.body);
+    res.status(201).json(createdJourney);
   } catch (error) {
     next(error);
   }
 };
 
-export const deleteMatch = async (req: Request, res: Response, next: NextFunction): Promise<void> => {
+export const deleteJourney = async (req: Request, res: Response, next: NextFunction): Promise<void> => {
   try {
     // Only for admins
     if (req.user.role !== "ADMIN") {
@@ -72,9 +72,9 @@ export const deleteMatch = async (req: Request, res: Response, next: NextFunctio
     }
 
     const id = req.params.id;
-    const matchDeleted = await matchOdm.deleteMatch(id);
-    if (matchDeleted) {
-      res.json(matchDeleted);
+    const journeyDeleted = await journeyOdm.deleteJourney(id);
+    if (journeyDeleted) {
+      res.json(journeyDeleted);
     } else {
       res.status(404).json({});
     }
@@ -83,7 +83,7 @@ export const deleteMatch = async (req: Request, res: Response, next: NextFunctio
   }
 };
 
-export const updateMatch = async (req: Request, res: Response, next: NextFunction): Promise<void> => {
+export const updateJourney = async (req: Request, res: Response, next: NextFunction): Promise<void> => {
   try {
     // Only for admins
     if (req.user.role !== "ADMIN") {
@@ -92,11 +92,11 @@ export const updateMatch = async (req: Request, res: Response, next: NextFunctio
     }
 
     const id = req.params.id;
-    const matchToUpdate = await matchOdm.getMatchById(id);
-    if (matchToUpdate) {
-      Object.assign(matchToUpdate, req.body);
-      const matchSaved: any = await matchToUpdate.save();
-      res.json(matchSaved);
+    const journeyToUpdate = await journeyOdm.getJourneyById(id);
+    if (journeyToUpdate) {
+      Object.assign(journeyToUpdate, req.body);
+      const journeySaved: any = await journeyToUpdate.save();
+      res.json(journeySaved);
     } else {
       res.status(404).json({});
     }
@@ -105,10 +105,10 @@ export const updateMatch = async (req: Request, res: Response, next: NextFunctio
   }
 };
 
-export const matchService = {
-  getMatches,
-  getMatchById,
-  createMatch,
-  deleteMatch,
-  updateMatch,
+export const journeyService = {
+  getJourneys,
+  getJourneyById,
+  createJourney,
+  deleteJourney,
+  updateJourney,
 };

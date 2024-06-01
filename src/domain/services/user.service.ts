@@ -121,13 +121,13 @@ export const login = async (req: Request, res: Response, next: NextFunction): Pr
     const { email, password } = req.body;
 
     if (!email || !password) {
-      res.status(400).json({ error: "Se deben especificar los campos email y password" });
+      res.status(400).json({ error: "The email and password fields must be specified" });
       return;
     }
 
     const user: any = await userOdm.getUserByEmailWithPassword(email);
     if (!user) {
-      res.status(401).json({ error: "Email y/o contraseña incorrectos" });
+      res.status(401).json({ error: "Incorrect email and/or password" });
       return;
     }
 
@@ -136,7 +136,7 @@ export const login = async (req: Request, res: Response, next: NextFunction): Pr
     const match = await bcrypt.compare(password, userPassword);
 
     if (!match) {
-      res.status(401).json({ error: "Email y/o contraseña incorrectos" });
+      res.status(401).json({ error: "Incorrect email and/or password" });
       return;
     }
 

@@ -7,7 +7,7 @@ export const userRouter = express.Router();
 
 userRouter.get("/", isAuth, userService.getUsers);
 userRouter.get("/:id", isAuth, userService.getUserById);
-userRouter.post("/", isAuth, userService.createUser);
+userRouter.post("/", userService.createUser);
 userRouter.delete("/:id", isAuth, userService.deleteUser);
 userRouter.put("/:id", isAuth, userService.updateUser);
 userRouter.post("/login", userService.login);

@@ -98,25 +98,25 @@ const seedDatabase = async (): Promise<void> => {
     await User.deleteMany({});
     await Team.deleteMany({});
 
-    // Insertar equipos y guardar sus referencias
+    // Insert teams
     const createdTeams = await Team.insertMany(teamsData);
 
-    // Crear un diccionario para acceder a los equipos por nombre
+    // Dictionary for teams
     const teamsDict: Record<string, any> = createdTeams.reduce((acc: Record<string, any>, team) => {
       acc[team.name] = team._id;
       return acc;
     }, {});
 
-    // Insertar usuarios y asignar los IDs de los equipos creados a los usuarios
+    // Insert users and assign the created team IDs to them
     const usersWithTeamIds = usersData.map((user) => ({
       ...user,
-      team: teamsDict[user.team], // Usamos user.team como string para acceder a teamsDict
+      team: teamsDict[user.team],
       role: ROL.PLAYER,
     }));
 
     const createdUsers = await User.insertMany(usersWithTeamIds);
 
-    // Actualizar equipos con usuarios creados
+    // Update teams with created users
     for (const user of createdUsers) {
       await Team.findByIdAndUpdate(user.team, { $push: { players: user._id } });
     }

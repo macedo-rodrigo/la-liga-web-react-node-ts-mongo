@@ -6,7 +6,6 @@ export interface ITeamCreate {
   name: string;
   alias: string;
   players: IUser[];
-  score: number;
 }
 
 export type ITeam = ITeamCreate & Document;

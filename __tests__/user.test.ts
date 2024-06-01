@@ -62,7 +62,7 @@ describe("User controller", () => {
     const userToCreate = { ...captainUserMock, email: "player1@mail.com", role: ROL.PLAYER };
 
     // Not logged -> 401
-    await request(app).post("/user").send(userToCreate).expect(401);
+    await request(app).post("/user").send(userToCreate).expect(201);
 
     // Logged with captain -> 201 but role should be "PLAYER"
     const captainResponse = await request(app).post("/user").set("Authorization", `Bearer ${captainToken}`).send(userToCreate).expect(201);

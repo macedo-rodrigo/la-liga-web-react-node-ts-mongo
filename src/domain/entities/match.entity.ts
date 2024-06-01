@@ -1,11 +1,11 @@
 /* eslint-disable @typescript-eslint/no-unsafe-argument */
-import { Document, Schema, model } from "mongoose";
+import { Date, Document, Schema, model } from "mongoose";
 import { ITeam } from "./team.entity";
 
 export interface IMatchCreate {
   local: ITeam;
   visitor: ITeam;
-  date: string;
+  date: Date;
   localScore: number;
   visitorScore: number;
   winner: ITeam;
@@ -27,8 +27,7 @@ const matchSchema = new Schema<IMatchCreate>(
       required: true,
     },
     date: {
-      type: String,
-      trim: true,
+      type: Date,
       required: true,
     },
     localScore: {
