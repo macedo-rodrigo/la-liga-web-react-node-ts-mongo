@@ -10,12 +10,6 @@ import { userOdm } from "../odm/user.odm";
 
 export const getUsers = async (req: Request, res: Response, next: NextFunction): Promise<void> => {
   try {
-    // Only for admins
-    if (req.user.role !== "ADMIN") {
-      res.status(401).json({ error: "No tienes autorización para hacer esto" });
-      return;
-    }
-
     // Ternario que se queda con el parametro si llega
     const page = req.query.page ? parseInt(req.query.page as string) : 1;
     const limit = req.query.limit ? parseInt(req.query.limit as string) : 10;
@@ -44,7 +38,7 @@ export const getUserById = async (req: Request, res: Response, next: NextFunctio
 
     // Only for admins and teachers
     if (req.user.role !== "ADMIN" && req.user.id !== userIdToShow) {
-      res.status(401).json({ error: "No tienes autorización para hacer esto" });
+      res.status(401).json({ error: "You are not authorized to do this" });
       return;
     }
 
@@ -74,7 +68,7 @@ export const deleteUser = async (req: Request, res: Response, next: NextFunction
   try {
     // Only for admins
     if (req.user.role !== "ADMIN" && req.user.role !== "CAPTAIN") {
-      res.status(401).json({ error: "No tienes autorización para hacer esto" });
+      res.status(401).json({ error: "You are not authorized to do this" });
       return;
     }
 
@@ -95,7 +89,7 @@ export const updateUser = async (req: Request, res: Response, next: NextFunction
     const userIdToShow = req.params.id;
     // Only for admins
     if (req.user.role !== "ADMIN" && req.user.role !== userIdToShow) {
-      res.status(401).json({ error: "No tienes autorización para hacer esto" });
+      res.status(401).json({ error: "You are not authorized to do this" });
       return;
     }
 
@@ -127,16 +121,16 @@ export const login = async (req: Request, res: Response, next: NextFunction): Pr
 
     const user: any = await userOdm.getUserByEmailWithPassword(email);
     if (!user) {
-      res.status(401).json({ error: "Incorrect email and/or password" });
+      res.status(401).json({ error: "user not found" });
       return;
     }
 
     // Comprueba la pass
     const userPassword: string = user.password;
-    const match = await bcrypt.compare(password, userPassword);
+    const isMatch = await bcrypt.compare(password, userPassword);
 
-    if (!match) {
-      res.status(401).json({ error: "Incorrect email and/or password" });
+    if (!isMatch) {
+      res.status(401).json({ error: "user was found, but the password is wrong" });
       return;
     }
 

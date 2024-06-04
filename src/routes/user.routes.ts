@@ -5,7 +5,7 @@ import { isAuth } from "../utils/auth.middleware";
 // Router propio de usuarios
 export const userRouter = express.Router();
 
-userRouter.get("/", isAuth, userService.getUsers);
+userRouter.get("/", userService.getUsers);
 userRouter.get("/:id", isAuth, userService.getUserById);
 userRouter.post("/", userService.createUser);
 userRouter.delete("/:id", isAuth, userService.deleteUser);

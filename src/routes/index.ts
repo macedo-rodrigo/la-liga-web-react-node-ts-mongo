@@ -4,6 +4,7 @@ import { userRouter } from "./user.routes";
 import { teamRouter } from "./team.routes";
 import { matchRouter } from "./match.routes";
 import { journeyRouter } from "./journey.routes";
+import { classificationRouter } from "./classification.routes";
 
 export const configureRoutes = (app: any): any => {
   // Routes
@@ -31,6 +32,7 @@ export const configureRoutes = (app: any): any => {
   app.use("/team", teamRouter);
   app.use("/match", matchRouter);
   app.use("/journey", journeyRouter);
+  app.use("/api/classification", classificationRouter);
   app.use("/", router);
 
   // Middleware de gestión de errores
