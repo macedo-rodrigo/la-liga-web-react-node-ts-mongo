@@ -33,9 +33,10 @@ export const getTeams = async (req: Request, res: Response, next: NextFunction):
 export const getTeamById = async (req: Request, res: Response, next: NextFunction): Promise<void> => {
   try {
     const userIdToShow = req.params.id;
+    console.log(req.user);
 
-    // Only for admins and teachers
-    if (req.user.role !== "ADMIN" && req.user.role !== "CAPTAIN" && req.user.id !== userIdToShow) {
+    // Only for admins and captains
+    if (req.user.role !== "ADMIN" && req.user.role !== "CAPTAIN" && req.user.team.toString() !== userIdToShow) {
       res.status(401).json({ error: "No tienes autorización para hacer esto" });
       return;
     }
@@ -109,10 +110,26 @@ export const updateTeam = async (req: Request, res: Response, next: NextFunction
   }
 };
 
+export const getMatchesByTeamId = async (req: Request, res: Response, next: NextFunction): Promise<void> => {
+  try {
+    const teamId = req.params.id;
+    const matches = await teamOdm.getMatchesByTeamId(teamId);
+
+    if (matches) {
+      res.json(matches);
+    } else {
+      res.status(404).json({ error: "No matches found" });
+    }
+  } catch (error) {
+    next(error);
+  }
+};
+
 export const teamService = {
   getTeams,
   getTeamById,
   createTeam,
   deleteTeam,
   updateTeam,
+  getMatchesByTeamId
 };

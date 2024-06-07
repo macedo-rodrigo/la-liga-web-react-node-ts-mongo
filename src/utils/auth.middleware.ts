@@ -20,6 +20,7 @@ export const isAuth = async (req: Request, res: Response, next: NextFunction): P
     req.user = {
       id: user.id,
       role: user.role as unknown as CUSTOM_ROL,
+      team: user.team as string
     };
     next();
 

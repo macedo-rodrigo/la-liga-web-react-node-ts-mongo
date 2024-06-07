@@ -9,6 +9,7 @@ declare namespace Express {
     user: {
       role: CUSTOM_ROL;
       id: string;
+      team: string;
     };
   }
 }

@@ -10,3 +10,4 @@ teamRouter.get("/:id", isAuth, teamService.getTeamById);
 teamRouter.post("/", isAuth, teamService.createTeam);
 teamRouter.delete("/:id", isAuth, teamService.deleteTeam);
 teamRouter.put("/:id", isAuth, teamService.updateTeam);
+teamRouter.get("/:id/matches", isAuth, teamService.getMatchesByTeamId);
